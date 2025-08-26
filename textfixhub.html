@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Text Fix Hub - Free all-in-one text tools for text processing, analysis, and content generation. All processing happens in your browser for maximum privacy.">
+    <meta name="keywords" content="text tools, word counter, case converter, text cleaner, lorem ipsum generator, find and replace">
+    <meta name="author" content="Text Fix Hub">
+    <title>Text Fix Hub - Free All-in-One Text Tools</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2d2d30;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent: #4a9eff;
+            --accent-hover: #3a8eef;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --border: #333;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        header {
+            background-color: var(--bg-secondary);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .logo i {
+            color: var(--accent);
+        }
+        main {
+            flex: 1;
+            padding: 1rem 0;
+        }
+        .tabs-container {
+            margin-bottom: 1rem;
+        }
+        .tabs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .tab {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.4rem 0.6rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            height: 36px;
+        }
+        .tab:hover {
+            background-color: var(--bg-tertiary);
+            border-color: var(--accent);
+        }
+        .tab.active {
+            background-color: var(--bg-tertiary);
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .tab i {
+            font-size: 1rem;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tool-section {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .tool-section h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+        button:disabled {
+            background-color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+        .result-box {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            color: white;
+            box-shadow: 0 4px 12px var(--shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .notification.success {
+            background-color: var(--success);
+        }
+        .notification.error {
+            background-color: var(--error);
+        }
+        .notification.warning {
+            background-color: var(--warning);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .stat-item {
+            background-color: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        .explanation-box {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .explanation-box h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .explanation-box ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .explanation-box li {
+            margin-bottom: 0.25rem;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+        .justified-text {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        .highlight {
+            background-color: rgba(255, 255, 0, 0.3);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .replace-history {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .replace-history-item {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: var(--bg-primary);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .cta-button {
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: var(--accent-hover);
+        }
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .tabs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tabs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tools"></i>
+                    <span>Text Fix Hub</span>
+                </div>
+                <div class="tagline">Free all-in-one text tools for everyday tasks</div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="tabs-container">
+                <div class="tabs-grid">
+                    <div class="tab active" data-tab="word-counter">
+                        <i class="fas fa-calculator"></i>
+                        <span>Word Counter</span>
+                    </div>
+                    <div class="tab" data-tab="case-converter">
+                        <i class="fas fa-font"></i>
+                        <span>Case Converter</span>
+                    </div>
+                    <div class="tab" data-tab="text-cleaner">
+                        <i class="fas fa-broom"></i>
+                        <span>Text Cleaner</span>
+                    </div>
+                    <div class="tab" data-tab="find-replace">
+                        <i class="fas fa-search-and-replace"></i>
+                        <span>Find & Replace</span>
+                    </div>
+                    <div class="tab" data-tab="lorem-ipsum">
+                        <i class="fas fa-text-height"></i>
+                        <span>Lorem Ipsum</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="word-counter" class="tab-content active">
+                <div class="tool-section">
+                    <h2><i class="fas fa-calculator"></i> Word & Character Counter</h2>
+                    <p>Get detailed statistics about your text with customizable counting options.</p>
+                    
+                    <div class="form-group">
+                        <label for="text-input">Enter or paste your text:</label>
+                        <textarea id="text-input" rows="8" placeholder="Type or paste your text here..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Counting Options:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="count-hyphenated" checked>
+                                <label for="count-hyphenated">Count hyphenated words as one word</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="count-numbers" checked>
+                                <label for="count-numbers">Count numbers as words</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="count-single-letters" checked>
+                                <label for="count-single-letters">Count single letters as words</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="count-contractions" checked>
+                                <label for="count-contractions">Count contractions (like "don't") as one word</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="word-count">0</div>
+                            <div class="stat-label">Words</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="char-count">0</div>
+                            <div class="stat-label">Characters</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="char-no-space-count">0</div>
+                            <div class="stat-label">Chars (no spaces)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="sentence-count">0</div>
+                            <div class="stat-label">Sentences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="paragraph-count">0</div>
+                            <div class="stat-label">Paragraphs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="reading-time">0</div>
+                            <div class="stat-label">Reading Time (min)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation-box">
+                        <h4><i class="fas fa-info-circle"></i> How We Count</h4>
+                        <p>Our counting methodology is transparent and customizable:</p>
+                        <ul>
+                            <li><strong>Words:</strong> Split text at whitespace (spaces, tabs, newlines) and count non-empty tokens. Hyphenated words like "state-of-the-art" are counted as one word when the option is enabled.</li>
+                            <li><strong>Characters:</strong> Total number of characters including spaces and punctuation.</li>
+                            <li><strong>Characters (no spaces):</strong> Total characters excluding all whitespace.</li>
+                            <li><strong>Sentences:</strong> Split text at periods, exclamation marks, and question marks. Consecutive punctuation is treated as a single sentence break.</li>
+                            <li><strong>Paragraphs:</strong> Split text at double line breaks (two or more consecutive newlines).</li>
+                            <li><strong>Reading Time:</strong> Calculated based on average reading speed of 200 words per minute.</li>
+                        </ul>
+                        <p>You can customize the counting behavior using the options above. This ensures the counts match your specific needs and expectations.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="case-converter" class="tab-content">
+                <div class="tool-section">
+                    <h2><i class="fas fa-font"></i> Case Converter</h2>
+                    <p>Convert text between different cases with our easy-to-use tool.</p>
+                    
+                    <div class="form-group">
+                        <label for="case-input">Enter or paste your text:</label>
+                        <textarea id="case-input" rows="8" placeholder="Type or paste your text here..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Convert to:</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button id="uppercase-btn">
+                                <i class="fas fa-arrow-up"></i> UPPERCASE
+                            </button>
+                            <button id="lowercase-btn">
+                                <i class="fas fa-arrow-down"></i> lowercase
+                            </button>
+                            <button id="titlecase-btn">
+                                <i class="fas fa-font"></i> Title Case
+                            </button>
+                            <button id="sentencecase-btn">
+                                <i class="fas fa-text-height"></i> Sentence case
+                            </button>
+                            <button id="camelcase-btn">
+                                <i class="fas fa-camel"></i> camelCase
+                            </button>
+                            <button id="snakecase-btn">
+                                <i class="fas fa-minus"></i> snake_case
+                            </button>
+                            <button id="kebabcase-btn">
+                                <i class="fas fa-grip-lines"></i> kebab-case
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="justify-text">Text Formatting:</label>
+                        <select id="justify-text">
+                            <option value="left">Left Align</option>
+                            <option value="center">Center Align</option>
+                            <option value="right">Right Align</option>
+                            <option value="justify">Justify</option>
+                        </select>
+                    </div>
+                    
+                    <div class="result-box" id="case-result">Converted text will appear here...</div>
+                </div>
+            </div>
+            
+            <div id="text-cleaner" class="tab-content">
+                <div class="tool-section">
+                    <h2><i class="fas fa-broom"></i> Text Cleaner</h2>
+                    <p>Remove extra spaces, line breaks, and format your text cleanly.</p>
+                    
+                    <div class="form-group">
+                        <label for="clean-input">Enter or paste your text:</label>
+                        <textarea id="clean-input" rows="8" placeholder="Type or paste your text here..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cleaning options:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="remove-extra-spaces" checked>
+                                <label for="remove-extra-spaces">Remove extra spaces between words</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="remove-leading-trailing" checked>
+                                <label for="remove-leading-trailing">Remove leading/trailing spaces</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="remove-empty-lines" checked>
+                                <label for="remove-empty-lines">Remove empty lines</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="remove-line-breaks">
+                                <label for="remove-line-breaks">Remove all line breaks</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="remove-special-chars">
+                                <label for="remove-special-chars">Remove special characters (keep letters, numbers, and basic punctuation)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fix-punctuation">
+                                <label for="fix-punctuation">Fix punctuation spacing (add space after commas, periods, etc.)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="clean-text-btn">
+                        <i class="fas fa-broom"></i> Clean Text
+                    </button>
+                    
+                    <div class="result-box" id="clean-result">Cleaned text will appear here...</div>
+                </div>
+            </div>
+            
+            <div id="find-replace" class="tab-content">
+                <div class="tool-section">
+                    <h2><i class="fas fa-search-and-replace"></i> Find & Replace</h2>
+                    <p>Find and replace text in your content with advanced options.</p>
+                    
+                    <div class="form-group">
+                        <label for="find-replace-input">Enter or paste your text:</label>
+                        <textarea id="find-replace-input" rows="8" placeholder="Type or paste your text here..."></textarea>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <div class="form-group">
+                                <label for="find-text">Find:</label>
+                                <input type="text" id="find-text" placeholder="Text to find">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="replace-text">Replace with:</label>
+                                <input type="text" id="replace-text" placeholder="Replacement text">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Options:</label>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="match-case">
+                                        <label for="match-case">Match case</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="match-whole-word">
+                                        <label for="match-whole-word">Match whole word</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="use-regex">
+                                        <label for="use-regex">Use regular expressions</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button id="find-btn">
+                                    <i class="fas fa-search"></i> Find
+                                </button>
+                                <button id="replace-btn">
+                                    <i class="fas fa-exchange-alt"></i> Replace
+                                </button>
+                                <button id="replace-all-btn">
+                                    <i class="fas fa-exchange-alt"></i> Replace All
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <label>Results:</label>
+                                <div class="result-box" id="find-replace-result">Results will appear here...</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Replace History:</label>
+                                <div id="replace-history" class="replace-history">
+                                    <p style="color: var(--text-secondary); font-style: italic;">No replacements yet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="lorem-ipsum" class="tab-content">
+                <div class="tool-section">
+                    <h2><i class="fas fa-text-height"></i> Lorem Ipsum Generator</h2>
+                    <p>Generate customizable dummy text for your design mockups and prototypes.</p>
+                    
+                    <div class="form-group">
+                        <label for="lorem-type">Type of text:</label>
+                        <select id="lorem-type">
+                            <option value="paragraphs">Paragraphs</option>
+                            <option value="words">Words</option>
+                            <option value="sentences">Sentences</option>
+                            <option value="list">Bullet List</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lorem-count">Number of <span id="lorem-unit">paragraphs</span>:</label>
+                        <input type="number" id="lorem-count" min="1" max="100" value="3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lorem-start">Start with "Lorem ipsum"?</label>
+                        <select id="lorem-start">
+                            <option value="yes" selected>Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    
+                    <button id="generate-lorem-btn">
+                        <i class="fas fa-magic"></i> Generate Lorem Ipsum
+                    </button>
+                    
+                    <div class="result-box" id="lorem-result">Generated text will appear here...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="https://buymeacoffee.com/dailytools4you" target="_blank" class="cta-button">
+                    <i class="fas fa-coffee"></i> If you find this useful, support me with 1$ coffee
+                </a>
+                <div class="copyright">
+                    &copy; 2023 Text Fix Hub. All rights reserved. All processing happens in your browser for maximum privacy.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update active content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            let icon = '';
+            switch(type) {
+                case 'success':
+                    icon = '<i class="fas fa-check-circle"></i>';
+                    break;
+                case 'error':
+                    icon = '<i class="fas fa-exclamation-circle"></i>';
+                    break;
+                case 'warning':
+                    icon = '<i class="fas fa-exclamation-triangle"></i>';
+                    break;
+            }
+            
+            notification.innerHTML = `${icon} ${message}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        // Word & Character Counter
+        const textInput = document.getElementById('text-input');
+        const wordCount = document.getElementById('word-count');
+        const charCount = document.getElementById('char-count');
+        const charNoSpaceCount = document.getElementById('char-no-space-count');
+        const sentenceCount = document.getElementById('sentence-count');
+        const paragraphCount = document.getElementById('paragraph-count');
+        const readingTime = document.getElementById('reading-time');
+        
+        // Counting options
+        const countHyphenated = document.getElementById('count-hyphenated');
+        const countNumbers = document.getElementById('count-numbers');
+        const countSingleLetters = document.getElementById('count-single-letters');
+        const countContractions = document.getElementById('count-contractions');
+        textInput.addEventListener('input', updateTextStats);
+        countHyphenated.addEventListener('change', updateTextStats);
+        countNumbers.addEventListener('change', updateTextStats);
+        countSingleLetters.addEventListener('change', updateTextStats);
+        countContractions.addEventListener('change', updateTextStats);
+        function updateTextStats() {
+            const text = textInput.value;
+            
+            // Character count
+            charCount.textContent = text.length;
+            
+            // Character count (no spaces)
+            charNoSpaceCount.textContent = text.replace(/\s/g, '').length;
+            
+            // Sentence count
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            sentenceCount.textContent = sentences.length;
+            
+            // Paragraph count
+            const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+            paragraphCount.textContent = paragraphs.length;
+            
+            // Word count with options
+            let words = text.trim().split(/\s+/).filter(word => word.length > 0);
+            
+            // Apply counting options
+            if (!countHyphenated.checked) {
+                // Split hyphenated words into separate words
+                words = words.flatMap(word => word.split('-'));
+            }
+            
+            if (!countNumbers.checked) {
+                // Remove words that are only numbers
+                words = words.filter(word => !/^\d+$/.test(word));
+            }
+            
+            if (!countSingleLetters.checked) {
+                // Remove single letter words (except "a" and "I")
+                words = words.filter(word => !(word.length === 1 && !/^[aI]$/i.test(word)));
+            }
+            
+            if (!countContractions.checked) {
+                // Split contractions (like "don't" into "don" and "t")
+                words = words.flatMap(word => word.split(/['']/));
+            }
+            
+            wordCount.textContent = words.length;
+            
+            // Reading time (based on 200 words per minute)
+            const minutes = Math.ceil(words.length / 200);
+            readingTime.textContent = minutes;
+        }
+        // Case Converter
+        const caseInput = document.getElementById('case-input');
+        const caseResult = document.getElementById('case-result');
+        const justifyText = document.getElementById('justify-text');
+        
+        document.getElementById('uppercase-btn').addEventListener('click', () => {
+            caseResult.textContent = caseInput.value.toUpperCase();
+            updateTextAlignment();
+        });
+        
+        document.getElementById('lowercase-btn').addEventListener('click', () => {
+            caseResult.textContent = caseInput.value.toLowerCase();
+            updateTextAlignment();
+        });
+        
+        document.getElementById('titlecase-btn').addEventListener('click', () => {
+            caseResult.textContent = toTitleCase(caseInput.value);
+            updateTextAlignment();
+        });
+        
+        document.getElementById('sentencecase-btn').addEventListener('click', () => {
+            caseResult.textContent = toSentenceCase(caseInput.value);
+            updateTextAlignment();
+        });
+        
+        document.getElementById('camelcase-btn').addEventListener('click', () => {
+            caseResult.textContent = toCamelCase(caseInput.value);
+            updateTextAlignment();
+        });
+        
+        document.getElementById('snakecase-btn').addEventListener('click', () => {
+            caseResult.textContent = toSnakeCase(caseInput.value);
+            updateTextAlignment();
+        });
+        
+        document.getElementById('kebabcase-btn').addEventListener('click', () => {
+            caseResult.textContent = toKebabCase(caseInput.value);
+            updateTextAlignment();
+        });
+        
+        justifyText.addEventListener('change', updateTextAlignment);
+        function updateTextAlignment() {
+            const alignment = justifyText.value;
+            caseResult.style.textAlign = alignment;
+            
+            if (alignment === 'justify') {
+                caseResult.classList.add('justified-text');
+            } else {
+                caseResult.classList.remove('justified-text');
+            }
+        }
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, (txt) => {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+        function toSentenceCase(str) {
+            return str.replace(/(^\s*\w|[.!?]\s*\w)/g, (txt) => {
+                return txt.toUpperCase();
+            });
+        }
+        function toCamelCase(str) {
+            return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
+                if (+match === 0) return "";
+                return index === 0 ? match.toLowerCase() : match.toUpperCase();
+            }).replace(/\s+/g, '');
+        }
+        function toSnakeCase(str) {
+            return str.replace(/\W+/g, ' ')
+                .split(/ |\B(?=[A-Z])/)
+                .map(word => word.toLowerCase())
+                .join('_');
+        }
+        function toKebabCase(str) {
+            return str.replace(/\W+/g, ' ')
+                .split(/ |\B(?=[A-Z])/)
+                .map(word => word.toLowerCase())
+                .join('-');
+        }
+        // Text Cleaner
+        const cleanInput = document.getElementById('clean-input');
+        const cleanResult = document.getElementById('clean-result');
+        const cleanTextBtn = document.getElementById('clean-text-btn');
+        // Cleaning options
+        const removeExtraSpaces = document.getElementById('remove-extra-spaces');
+        const removeLeadingTrailing = document.getElementById('remove-leading-trailing');
+        const removeEmptyLines = document.getElementById('remove-empty-lines');
+        const removeLineBreaks = document.getElementById('remove-line-breaks');
+        const removeSpecialChars = document.getElementById('remove-special-chars');
+        const fixPunctuation = document.getElementById('fix-punctuation');
+        cleanTextBtn.addEventListener('click', () => {
+            let text = cleanInput.value;
+            
+            // Remove extra spaces between words
+            if (removeExtraSpaces.checked) {
+                text = text.replace(/\s+/g, ' ');
+            }
+            
+            // Remove leading/trailing spaces
+            if (removeLeadingTrailing.checked) {
+                text = text.trim();
+            }
+            
+            // Remove empty lines
+            if (removeEmptyLines.checked) {
+                text = text.replace(/^\s*\n/gm, '');
+            }
+            
+            // Remove all line breaks
+            if (removeLineBreaks.checked) {
+                text = text.replace(/\n/g, ' ');
+            }
+            
+            // Remove special characters
+            if (removeSpecialChars.checked) {
+                text = text.replace(/[^\w\s.,!?;:()'"]/g, '');
+            }
+            
+            // Fix punctuation spacing
+            if (fixPunctuation.checked) {
+                text = text.replace(/\s*([.,!?;:])\s*/g, '$1 ');
+                text = text.replace(/\s+([)])\s*/g, '$1 ');
+                text = text.replace(/\s*([(])\s*/g, ' $1');
+            }
+            
+            cleanResult.textContent = text;
+        });
+        // Find & Replace Tool
+        const findReplaceInput = document.getElementById('find-replace-input');
+        const findText = document.getElementById('find-text');
+        const replaceText = document.getElementById('replace-text');
+        const findBtn = document.getElementById('find-btn');
+        const replaceBtn = document.getElementById('replace-btn');
+        const replaceAllBtn = document.getElementById('replace-all-btn');
+        const findReplaceResult = document.getElementById('find-replace-result');
+        const replaceHistory = document.getElementById('replace-history');
+        const matchCase = document.getElementById('match-case');
+        const matchWholeWord = document.getElementById('match-whole-word');
+        const useRegex = document.getElementById('use-regex');
+        
+        let replaceHistoryItems = [];
+        
+        findBtn.addEventListener('click', findTextInContent);
+        replaceBtn.addEventListener('click', replaceTextInContent);
+        replaceAllBtn.addEventListener('click', replaceAllTextInContent);
+        
+        function findTextInContent() {
+            const text = findReplaceInput.value;
+            const searchTerm = findText.value;
+            
+            if (!searchTerm) {
+                showNotification('Please enter text to find', 'warning');
+                return;
+            }
+            
+            let flags = 'g';
+            if (!matchCase.checked) {
+                flags += 'i';
+            }
+            
+            let searchPattern;
+            if (useRegex.checked) {
+                try {
+                    searchPattern = new RegExp(searchTerm, flags);
+                } catch (error) {
+                    showNotification('Invalid regular expression', 'error');
+                    return;
+                }
+            } else {
+                let escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                if (matchWholeWord.checked) {
+                    searchPattern = new RegExp(`\\b${escapedSearchTerm}\\b`, flags);
+                } else {
+                    searchPattern = new RegExp(escapedSearchTerm, flags);
+                }
+            }
+            
+            const matches = text.match(searchPattern);
+            const matchCount = matches ? matches.length : 0;
+            
+            if (matchCount > 0) {
+                let highlightedText = text.replace(searchPattern, '<span class="highlight">$&</span>');
+                findReplaceResult.innerHTML = `Found ${matchCount} occurrence(s) of "${searchTerm}":<br><br>${highlightedText}`;
+                showNotification(`Found ${matchCount} occurrence(s)`, 'success');
+            } else {
+                findReplaceResult.textContent = `No occurrences of "${searchTerm}" found.`;
+                showNotification('No matches found', 'warning');
+            }
+        }
+        
+        function replaceTextInContent() {
+            const text = findReplaceInput.value;
+            const searchTerm = findText.value;
+            const replacement = replaceText.value;
+            
+            if (!searchTerm) {
+                showNotification('Please enter text to find', 'warning');
+                return;
+            }
+            
+            let flags = 'g';
+            if (!matchCase.checked) {
+                flags += 'i';
+            }
+            
+            let searchPattern;
+            if (useRegex.checked) {
+                try {
+                    searchPattern = new RegExp(searchTerm, flags);
+                } catch (error) {
+                    showNotification('Invalid regular expression', 'error');
+                    return;
+                }
+            } else {
+                let escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                if (matchWholeWord.checked) {
+                    searchPattern = new RegExp(`\\b${escapedSearchTerm}\\b`, flags);
+                } else {
+                    searchPattern = new RegExp(escapedSearchTerm, flags);
+                }
+            }
+            
+            const newText = text.replace(searchPattern, replacement);
+            findReplaceInput.value = newText;
+            
+            // Add to replace history
+            const timestamp = new Date().toLocaleTimeString();
+            replaceHistoryItems.unshift({
+                searchTerm,
+                replacement,
+                timestamp,
+                count: 1
+            });
+            
+            updateReplaceHistory();
+            findReplaceResult.textContent = `Replaced 1 occurrence of "${searchTerm}" with "${replacement}".`;
+            showNotification('Text replaced successfully', 'success');
+        }
+        
+        function replaceAllTextInContent() {
+            const text = findReplaceInput.value;
+            const searchTerm = findText.value;
+            const replacement = replaceText.value;
+            
+            if (!searchTerm) {
+                showNotification('Please enter text to find', 'warning');
+                return;
+            }
+            
+            let flags = 'g';
+            if (!matchCase.checked) {
+                flags += 'i';
+            }
+            
+            let searchPattern;
+            if (useRegex.checked) {
+                try {
+                    searchPattern = new RegExp(searchTerm, flags);
+                } catch (error) {
+                    showNotification('Invalid regular expression', 'error');
+                    return;
+                }
+            } else {
+                let escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                if (matchWholeWord.checked) {
+                    searchPattern = new RegExp(`\\b${escapedSearchTerm}\\b`, flags);
+                } else {
+                    searchPattern = new RegExp(escapedSearchTerm, flags);
+                }
+            }
+            
+            const matches = text.match(searchPattern);
+            const matchCount = matches ? matches.length : 0;
+            
+            if (matchCount > 0) {
+                const newText = text.replace(searchPattern, replacement);
+                findReplaceInput.value = newText;
+                
+                // Add to replace history
+                const timestamp = new Date().toLocaleTimeString();
+                replaceHistoryItems.unshift({
+                    searchTerm,
+                    replacement,
+                    timestamp,
+                    count: matchCount
+                });
+                
+                updateReplaceHistory();
+                findReplaceResult.textContent = `Replaced ${matchCount} occurrence(s) of "${searchTerm}" with "${replacement}".`;
+                showNotification(`Replaced ${matchCount} occurrence(s)`, 'success');
+            } else {
+                findReplaceResult.textContent = `No occurrences of "${searchTerm}" found.`;
+                showNotification('No matches found', 'warning');
+            }
+        }
+        
+        function updateReplaceHistory() {
+            if (replaceHistoryItems.length === 0) {
+                replaceHistory.innerHTML = '<p style="color: var(--text-secondary); font-style: italic;">No replacements yet</p>';
+                return;
+            }
+            
+            let historyHtml = '';
+            replaceHistoryItems.slice(0, 5).forEach(item => {
+                historyHtml += `
+                    <div class="replace-history-item">
+                        <strong>${item.timestamp}</strong>: Replaced "${item.searchTerm}" with "${item.replacement}" (${item.count} time${item.count !== 1 ? 's' : ''})
+                    </div>
+                `;
+            });
+            
+            replaceHistory.innerHTML = historyHtml;
+        }
+        // Lorem Ipsum Generator
+        const loremType = document.getElementById('lorem-type');
+        const loremCount = document.getElementById('lorem-count');
+        const loremUnit = document.getElementById('lorem-unit');
+        const loremStart = document.getElementById('lorem-start');
+        const loremResult = document.getElementById('lorem-result');
+        const generateLoremBtn = document.getElementById('generate-lorem-btn');
+        loremType.addEventListener('change', () => {
+            const type = loremType.value;
+            switch(type) {
+                case 'paragraphs':
+                    loremUnit.textContent = 'paragraphs';
+                    break;
+                case 'words':
+                    loremUnit.textContent = 'words';
+                    break;
+                case 'sentences':
+                    loremUnit.textContent = 'sentences';
+                    break;
+                case 'list':
+                    loremUnit.textContent = 'items';
+                    break;
+            }
+        });
+        generateLoremBtn.addEventListener('click', () => {
+            const type = loremType.value;
+            const count = parseInt(loremCount.value);
+            const startWithLorem = loremStart.value === 'yes';
+            
+            let result = '';
+            
+            if (type === 'paragraphs') {
+                result = generateLoremParagraphs(count, startWithLorem);
+            } else if (type === 'words') {
+                result = generateLoremWords(count, startWithLorem);
+            } else if (type === 'sentences') {
+                result = generateLoremSentences(count, startWithLorem);
+            } else if (type === 'list') {
+                result = generateLoremList(count, startWithLorem);
+            }
+            
+            loremResult.textContent = result;
+        });
+        function generateLoremParagraphs(count, startWithLorem) {
+            const loremWords = [
+                'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
+                'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
+                'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
+                'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
+                'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'voluptate',
+                'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint',
+                'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia',
+                'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
+            ];
+            
+            let paragraphs = [];
+            
+            for (let i = 0; i < count; i++) {
+                let paragraph = '';
+                let sentenceCount = Math.floor(Math.random() * 4) + 3; // 3-6 sentences per paragraph
+                
+                for (let j = 0; j < sentenceCount; j++) {
+                    let sentence = '';
+                    let wordCount = Math.floor(Math.random() * 10) + 5; // 5-14 words per sentence
+                    
+                    for (let k = 0; k < wordCount; k++) {
+                        if (i === 0 && j === 0 && k === 0 && startWithLorem) {
+                            sentence += 'Lorem ipsum';
+                        } else {
+                            const randomIndex = Math.floor(Math.random() * loremWords.length);
+                            sentence += loremWords[randomIndex];
+                        }
+                        
+                        if (k === wordCount - 1) {
+                            sentence += '.';
+                        } else {
+                            sentence += ' ';
+                        }
+                    }
+                    
+                    paragraph += sentence + ' ';
+                }
+                
+                paragraphs.push(paragraph.trim());
+            }
+            
+            return paragraphs.join('\n\n');
+        }
+        function generateLoremWords(count, startWithLorem) {
+            const loremWords = [
+                'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
+                'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
+                'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
+                'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
+                'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'voluptate',
+                'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint',
+                'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia',
+                'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
+            ];
+            
+            let result = '';
+            
+            for (let i = 0; i < count; i++) {
+                if (i === 0 && startWithLorem) {
+                    result += 'Lorem ipsum';
+                } else {
+                    const randomIndex = Math.floor(Math.random() * loremWords.length);
+                    result += loremWords[randomIndex];
+                }
+                
+                if (i < count - 1) {
+                    result += ' ';
+                }
+            }
+            
+            return result;
+        }
+        function generateLoremSentences(count, startWithLorem) {
+            const loremWords = [
+                'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
+                'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
+                'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
+                'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
+                'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'voluptate',
+                'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint',
+                'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia',
+                'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
+            ];
+            
+            let sentences = [];
+            
+            for (let i = 0; i < count; i++) {
+                let sentence = '';
+                let wordCount = Math.floor(Math.random() * 10) + 5; // 5-14 words per sentence
+                
+                for (let j = 0; j < wordCount; j++) {
+                    if (i === 0 && j === 0 && startWithLorem) {
+                        sentence += 'Lorem ipsum';
+                    } else {
+                        const randomIndex = Math.floor(Math.random() * loremWords.length);
+                        sentence += loremWords[randomIndex];
+                    }
+                    
+                    if (j === wordCount - 1) {
+                        sentence += '.';
+                    } else {
+                        sentence += ' ';
+                    }
+                }
+                
+                sentences.push(sentence);
+            }
+            
+            return sentences.join(' ');
+        }
+        function generateLoremList(count, startWithLorem) {
+            const loremWords = [
+                'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
+                'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
+                'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
+                'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
+                'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'voluptate',
+                'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint',
+                'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia',
+                'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
+            ];
+            
+            let listItems = [];
+            
+            for (let i = 0; i < count; i++) {
+                let item = '';
+                let wordCount = Math.floor(Math.random() * 8) + 3; // 3-10 words per item
+                
+                for (let j = 0; j < wordCount; j++) {
+                    if (i === 0 && j === 0 && startWithLorem) {
+                        item += 'Lorem ipsum';
+                    } else {
+                        const randomIndex = Math.floor(Math.random() * loremWords.length);
+                        item += loremWords[randomIndex];
+                    }
+                    
+                    if (j < wordCount - 1) {
+                        item += ' ';
+                    }
+                }
+                
+                listItems.push(`• ${item}`);
+            }
+            
+            return listItems.join('\n');
+        }
+    </script>
+</body>
+</html>
