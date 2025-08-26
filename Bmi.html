@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online BMI calculator with age consideration. Calculate your Body Mass Index (BMI) instantly and find your ideal weight range.">
+    <title>BMI Calculator – Free Online Tool</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #22d3ee;
+            --light-color: #1e293b;
+            --dark-color: #f8fafc;
+            --card-bg: #1e293b;
+            --input-bg: #334155;
+            --text-secondary: #cbd5e1;
+            --text-bright: #e2e8f0;
+            --border-color: #475569;
+            --donation-color: #FFDD00;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        
+        .hero-section p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+        
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid var(--border-color);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--dark-color);
+        }
+        
+        .form-control, .btn {
+            border-radius: 10px;
+        }
+        
+        .form-control {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--dark-color);
+        }
+        
+        .form-control:focus {
+            background-color: var(--input-bg);
+            border-color: var(--primary-color);
+            color: var(--dark-color);
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: #94a3b8;
+            opacity: 0.8;
+        }
+        
+        .form-label {
+            color: var(--text-bright);
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-donation {
+            background: linear-gradient(135deg, var(--donation-color), #FF8C00);
+            color: #1a1a1a;
+            border: none;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-top: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 221, 0, 0.3);
+        }
+        
+        .btn-donation:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 221, 0, 0.4);
+            color: #1a1a1a;
+        }
+        
+        .donation-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .result-box {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .result-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .bmi-result {
+            margin-top: 15px;
+        }
+        
+        .bmi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .bmi-category {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .bmi-category.underweight {
+            color: #60a5fa;
+        }
+        
+        .bmi-category.normal {
+            color: #34d399;
+        }
+        
+        .bmi-category.overweight {
+            color: #fbbf24;
+        }
+        
+        .bmi-category.obese {
+            color: #f87171;
+        }
+        
+        .bmi-explanation {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .unit-toggle {
+            display: flex;
+            margin-bottom: 15px;
+            background-color: var(--input-bg);
+            border-radius: 10px;
+            padding: 5px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .unit-option {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .unit-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .height-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .height-input-group .form-control {
+            flex: 1;
+        }
+        
+        .unit-label {
+            font-size: 0.9rem;
+            color: var(--text-bright);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .normal-weight-range {
+            background-color: #1e3a5f;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .normal-weight-title {
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .weight-range {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .weight-range-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .weight-range-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .weight-range-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .bmi-range {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        
+        .bmi-range-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .perfect-weight-section {
+            background-color: #1e4620;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #34d399;
+            text-align: center;
+        }
+        
+        .perfect-weight-title {
+            font-weight: 600;
+            color: #a7f3d0;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .perfect-weight-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #34d399;
+            margin-bottom: 5px;
+        }
+        
+        .perfect-bmi-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #34d399;
+        }
+        
+        .perfect-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        
+        .age-gender-section {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: var(--input-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .age-gender-title {
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .age-gender-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .age-gender-row .form-control {
+            flex: 1;
+        }
+        
+        .percentile-info {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .percentile-title {
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .percentile-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .percentile-explanation {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 40px 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .tool-card {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tool-title {
+                font-size: 1.3rem;
+            }
+            
+            .weight-range {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .age-gender-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-donation {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1>BMI Calculator</h1>
+            <p>Calculate your Body Mass Index (BMI) and find your ideal weight range. Age-specific calculations for children and adults.</p>
+        </div>
+    </div>
+    
+    <!-- Main Tool Section -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- BMI Calculator -->
+            <div class="col-lg-8 col-md-10">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <h2 class="tool-title">BMI Calculator</h2>
+                    </div>
+                    
+                    <!-- Age and Gender Section -->
+                    <div class="age-gender-section">
+                        <div class="age-gender-title">Personal Information</div>
+                        <div class="age-gender-row">
+                            <div>
+                                <label for="ageValue" class="form-label">Enter your age</label>
+                                <input type="number" class="form-control" id="ageValue" placeholder="Age in years" min="2" max="120">
+                            </div>
+                            <div>
+                                <label for="genderValue" class="form-label">Select your gender</label>
+                                <select class="form-control" id="genderValue">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Height Unit Toggle -->
+                    <div class="mb-3">
+                        <div class="unit-label">Choose height unit</div>
+                        <div class="unit-toggle">
+                            <div class="unit-option active" id="heightCm" onclick="toggleHeightUnit('cm')">cm</div>
+                            <div class="unit-option" id="heightFtIn" onclick="toggleHeightUnit('ftin')">ft/in</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Height Inputs -->
+                    <div id="heightInputs">
+                        <!-- cm input -->
+                        <div id="cmInput" class="mb-3">
+                            <label for="heightCmValue" class="form-label">Enter your height in cm</label>
+                            <input type="number" class="form-control" id="heightCmValue" placeholder="Height in centimeters" oninput="updateNormalWeightRange()">
+                        </div>
+                        
+                        <!-- ft/in inputs -->
+                        <div id="ftInInputs" style="display: none;">
+                            <div class="mb-3">
+                                <label class="form-label">Enter your height</label>
+                                <div class="height-input-group">
+                                    <input type="number" class="form-control" id="feet" placeholder="Feet" oninput="updateNormalWeightRange()">
+                                    <input type="number" class="form-control" id="inches" placeholder="Inches" oninput="updateNormalWeightRange()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Weight Unit Toggle -->
+                    <div class="mb-3">
+                        <div class="unit-label">Choose weight unit</div>
+                        <div class="unit-toggle">
+                            <div class="unit-option active" id="weightKg" onclick="toggleWeightUnit('kg')">kg</div>
+                            <div class="unit-option" id="weightLb" onclick="toggleWeightUnit('lb')">lb</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Weight Input -->
+                    <div class="mb-3">
+                        <label for="weightValue" class="form-label" id="weightLabel">Enter your weight in kg</label>
+                        <input type="number" class="form-control" id="weightValue" placeholder="Weight in kilograms">
+                    </div>
+                    
+                    <button class="btn btn-primary w-100" onclick="calculateBMI()">Calculate BMI</button>
+                    
+                    <!-- Normal Weight Range Display -->
+                    <div id="normalWeightRange" class="normal-weight-range" style="display: none;">
+                        <div class="normal-weight-title">Normal Weight Range for Your Height</div>
+                        <div class="weight-range">
+                            <div class="weight-range-item">
+                                <div class="weight-range-value" id="minWeight">0</div>
+                                <div class="weight-range-label">Minimum Weight</div>
+                            </div>
+                            <div class="weight-range-item">
+                                <div class="weight-range-value" id="maxWeight">0</div>
+                                <div class="weight-range-label">Maximum Weight</div>
+                            </div>
+                        </div>
+                        <div class="bmi-range">
+                            Based on normal BMI range: <span class="bmi-range-value">18.5 - 24.9</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Perfect Weight Display -->
+                    <div id="perfectWeightSection" class="perfect-weight-section" style="display: none;">
+                        <div class="perfect-weight-title">Perfect Weight for Your Height</div>
+                        <div class="perfect-weight-value" id="perfectWeight">0</div>
+                        <div class="perfect-bmi-value">BMI: 22</div>
+                        <div class="perfect-info">This is the midpoint of the healthy BMI range</div>
+                    </div>
+                    
+                    <!-- Percentile Info for Children -->
+                    <div id="percentileInfo" class="percentile-info" style="display: none;">
+                        <div class="percentile-title">BMI Percentile</div>
+                        <div class="percentile-value" id="percentileValue">0%</div>
+                        <div class="percentile-explanation" id="percentileExplanation">This indicates how your BMI compares to others of the same age and gender.</div>
+                    </div>
+                    
+                    <div id="bmiResult" class="result-box">
+                        <p class="result-text">Enter your height and weight to calculate BMI</p>
+                    </div>
+                    
+                    <!-- Donation Button -->
+                    <div class="donation-container">
+                        <a href="https://buymeacoffee.com/dailytools4you" target="_blank" class="btn-donation">
+                            <i class="fas fa-coffee"></i>
+                            If you find this useful, support me with 1$ ☕
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Toggle height unit between cm and ft/in
+        function toggleHeightUnit(unit) {
+            const heightCm = document.getElementById('heightCm');
+            const heightFtIn = document.getElementById('heightFtIn');
+            const cmInput = document.getElementById('cmInput');
+            const ftInInputs = document.getElementById('ftInInputs');
+            
+            if (unit === 'cm') {
+                heightCm.classList.add('active');
+                heightFtIn.classList.remove('active');
+                cmInput.style.display = 'block';
+                ftInInputs.style.display = 'none';
+            } else {
+                heightCm.classList.remove('active');
+                heightFtIn.classList.add('active');
+                cmInput.style.display = 'none';
+                ftInInputs.style.display = 'block';
+            }
+            
+            // Update normal weight range when unit changes
+            updateNormalWeightRange();
+        }
+        
+        // Toggle weight unit between kg and lb
+        function toggleWeightUnit(unit) {
+            const weightKg = document.getElementById('weightKg');
+            const weightLb = document.getElementById('weightLb');
+            const weightLabel = document.getElementById('weightLabel');
+            const weightValue = document.getElementById('weightValue');
+            
+            if (unit === 'kg') {
+                weightKg.classList.add('active');
+                weightLb.classList.remove('active');
+                weightLabel.textContent = 'Enter your weight in kg';
+                weightValue.placeholder = 'Weight in kilograms';
+            } else {
+                weightKg.classList.remove('active');
+                weightLb.classList.add('active');
+                weightLabel.textContent = 'Enter your weight in lb';
+                weightValue.placeholder = 'Weight in pounds';
+            }
+            
+            // Update normal weight range when unit changes
+            updateNormalWeightRange();
+        }
+        
+        // Update normal weight range and perfect weight based on height
+        function updateNormalWeightRange() {
+            let heightInMeters;
+            const heightUnitCm = document.getElementById('heightCm').classList.contains('active');
+            
+            if (heightUnitCm) {
+                // Height in cm
+                const heightCm = parseFloat(document.getElementById('heightCmValue').value);
+                if (isNaN(heightCm) || heightCm <= 0) {
+                    document.getElementById('normalWeightRange').style.display = 'none';
+                    document.getElementById('perfectWeightSection').style.display = 'none';
+                    return;
+                }
+                heightInMeters = heightCm / 100;
+            } else {
+                // Height in ft/in
+                const feet = parseFloat(document.getElementById('feet').value);
+                const inches = parseFloat(document.getElementById('inches').value);
+                if (isNaN(feet) || isNaN(inches) || feet < 0 || inches < 0) {
+                    document.getElementById('normalWeightRange').style.display = 'none';
+                    document.getElementById('perfectWeightSection').style.display = 'none';
+                    return;
+                }
+                const totalInches = (feet * 12) + inches;
+                heightInMeters = totalInches * 0.0254;
+            }
+            
+            // Get current weight unit
+            const weightUnitKg = document.getElementById('weightKg').classList.contains('active');
+            let unit;
+            if (weightUnitKg) {
+                unit = 'kg';
+            } else {
+                unit = 'lb';
+            }
+            
+            // Calculate min and max weight in kg (for BMI 18.5 and 24.9)
+            const minWeightKg = 18.5 * heightInMeters * heightInMeters;
+            const maxWeightKg = 24.9 * heightInMeters * heightInMeters;
+            
+            // Calculate perfect weight in kg (for BMI 22)
+            const perfectWeightKg = 22 * heightInMeters * heightInMeters;
+            
+            let minWeight, maxWeight, perfectWeight;
+            if (weightUnitKg) {
+                minWeight = minWeightKg;
+                maxWeight = maxWeightKg;
+                perfectWeight = perfectWeightKg;
+            } else {
+                minWeight = minWeightKg * 2.20462;
+                maxWeight = maxWeightKg * 2.20462;
+                perfectWeight = perfectWeightKg * 2.20462;
+            }
+            
+            // Update the display for normal weight range
+            document.getElementById('minWeight').textContent = minWeight.toFixed(1) + ' ' + unit;
+            document.getElementById('maxWeight').textContent = maxWeight.toFixed(1) + ' ' + unit;
+            document.getElementById('normalWeightRange').style.display = 'block';
+            
+            // Update the display for perfect weight
+            document.getElementById('perfectWeight').textContent = perfectWeight.toFixed(1) + ' ' + unit;
+            document.getElementById('perfectWeightSection').style.display = 'block';
+        }
+        
+        // Calculate BMI percentile for children and teens (simplified approach)
+        function calculateBMIPercentile(bmi, age, gender) {
+            // This is a simplified calculation for demonstration purposes
+            // In a real application, you would use CDC growth charts or a more complex formula
+            
+            // Base values for BMI percentiles by age and gender
+            // These are approximate values for demonstration
+            const baseValues = {
+                male: {
+                    2: { p5: 14.5, p85: 17.8, p95: 18.8 },
+                    3: { p5: 14.0, p85: 17.2, p95: 18.2 },
+                    4: { p5: 13.8, p85: 17.0, p95: 18.0 },
+                    5: { p5: 13.7, p85: 17.0, p95: 18.1 },
+                    6: { p5: 13.8, p85: 17.2, p95: 18.5 },
+                    7: { p5: 14.0, p85: 17.6, p95: 19.0 },
+                    8: { p5: 14.2, p85: 18.0, p95: 19.7 },
+                    9: { p5: 14.5, p85: 18.6, p95: 20.5 },
+                    10: { p5: 14.8, p85: 19.2, p95: 21.4 },
+                    11: { p5: 15.2, p85: 20.0, p95: 22.5 },
+                    12: { p5: 15.6, p85: 20.8, p95: 23.6 },
+                    13: { p5: 16.2, p85: 21.8, p95: 24.8 },
+                    14: { p5: 16.8, p85: 22.8, p95: 26.0 },
+                    15: { p5: 17.4, p85: 23.8, p95: 27.2 },
+                    16: { p5: 18.0, p85: 24.6, p95: 28.2 },
+                    17: { p5: 18.5, p85: 25.2, p95: 29.0 },
+                    18: { p5: 18.8, p85: 25.6, p95: 29.6 },
+                    19: { p5: 19.0, p85: 25.8, p95: 30.0 }
+                },
+                female: {
+                    2: { p5: 14.2, p85: 17.4, p95: 18.4 },
+                    3: { p5: 13.8, p85: 17.0, p95: 18.0 },
+                    4: { p5: 13.6, p85: 16.8, p95: 17.8 },
+                    5: { p5: 13.5, p85: 16.8, p95: 18.0 },
+                    6: { p5: 13.6, p85: 17.0, p95: 18.4 },
+                    7: { p5: 13.8, p85: 17.4, p95: 19.0 },
+                    8: { p5: 14.0, p85: 18.0, p95: 19.8 },
+                    9: { p5: 14.4, p85: 18.6, p95: 20.8 },
+                    10: { p5: 14.8, p85: 19.4, p95: 21.8 },
+                    11: { p5: 15.4, p85: 20.4, p95: 23.0 },
+                    12: { p5: 16.0, p85: 21.4, p95: 24.4 },
+                    13: { p5: 16.8, p85: 22.6, p95: 25.8 },
+                    14: { p5: 17.4, p85: 23.6, p95: 27.0 },
+                    15: { p5: 17.8, p85: 24.2, p95: 27.8 },
+                    16: { p5: 18.2, p85: 24.6, p95: 28.4 },
+                    17: { p5: 18.4, p85: 24.8, p95: 28.8 },
+                    18: { p5: 18.6, p85: 25.0, p95: 29.0 },
+                    19: { p5: 18.8, p85: 25.2, p95: 29.2 }
+                }
+            };
+            
+            // Get the values for the specific age and gender
+            const ageValues = baseValues[gender][age];
+            
+            if (!ageValues) {
+                // If we don't have data for this age, return a default percentile
+                return 50; // Middle of the range
+            }
+            
+            // Calculate percentile based on where BMI falls in the range
+            if (bmi < ageValues.p5) {
+                return Math.max(0, (bmi / ageValues.p5) * 5);
+            } else if (bmi < ageValues.p85) {
+                return 5 + ((bmi - ageValues.p5) / (ageValues.p85 - ageValues.p5)) * 80;
+            } else if (bmi < ageValues.p95) {
+                return 85 + ((bmi - ageValues.p85) / (ageValues.p95 - ageValues.p85)) * 10;
+            } else {
+                return Math.min(99, 95 + ((bmi - ageValues.p95) / ageValues.p95) * 5);
+            }
+        }
+        
+        // BMI Calculator Function
+        function calculateBMI() {
+            let heightInMeters, weightInKg;
+            
+            // Get height unit and value
+            const heightUnitCm = document.getElementById('heightCm').classList.contains('active');
+            
+            if (heightUnitCm) {
+                // Height in cm
+                const heightCm = parseFloat(document.getElementById('heightCmValue').value);
+                if (isNaN(heightCm) || heightCm <= 0) {
+                    alert('Please enter a valid height in cm');
+                    return;
+                }
+                heightInMeters = heightCm / 100;
+            } else {
+                // Height in ft/in
+                const feet = parseFloat(document.getElementById('feet').value);
+                const inches = parseFloat(document.getElementById('inches').value);
+                if (isNaN(feet) || isNaN(inches) || feet < 0 || inches < 0) {
+                    alert('Please enter valid height in feet and inches');
+                    return;
+                }
+                const totalInches = (feet * 12) + inches;
+                heightInMeters = totalInches * 0.0254;
+            }
+            
+            // Get weight unit and value
+            const weightUnitKg = document.getElementById('weightKg').classList.contains('active');
+            const weightValue = parseFloat(document.getElementById('weightValue').value);
+            
+            if (isNaN(weightValue) || weightValue <= 0) {
+                alert('Please enter a valid weight');
+                return;
+            }
+            
+            if (weightUnitKg) {
+                // Weight in kg
+                weightInKg = weightValue;
+            } else {
+                // Weight in lb
+                weightInKg = weightValue * 0.453592;
+            }
+            
+            // Calculate BMI
+            const bmi = weightInKg / (heightInMeters * heightInMeters);
+            
+            // Get age and gender
+            const age = parseInt(document.getElementById('ageValue').value);
+            const gender = document.getElementById('genderValue').value;
+            
+            let category = '';
+            let categoryClass = '';
+            let explanation = '';
+            
+            // Hide percentile info by default
+            document.getElementById('percentileInfo').style.display = 'none';
+            
+            // Different BMI categories for children/teens vs adults
+            if (age >= 2 && age <= 19) {
+                // For children and teens, use BMI percentiles
+                const percentile = calculateBMIPercentile(bmi, age, gender);
+                
+                // Show percentile info
+                document.getElementById('percentileValue').textContent = percentile.toFixed(1) + '%';
+                document.getElementById('percentileInfo').style.display = 'block';
+                
+                if (percentile < 5) {
+                    category = 'Underweight';
+                    categoryClass = 'underweight';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is below the 5th percentile for your age and gender.`;
+                } else if (percentile < 85) {
+                    category = 'Healthy weight';
+                    categoryClass = 'normal';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is within the healthy range (5th to 85th percentile) for your age and gender.`;
+                } else if (percentile < 95) {
+                    category = 'Overweight';
+                    categoryClass = 'overweight';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is above the 85th percentile for your age and gender.`;
+                } else {
+                    category = 'Obese';
+                    categoryClass = 'obese';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is above the 95th percentile for your age and gender.`;
+                }
+            } else {
+                // For adults, use standard BMI categories
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                    categoryClass = 'underweight';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is below the normal weight range.`;
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    category = 'Normal weight';
+                    categoryClass = 'normal';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is within the normal weight range.`;
+                } else if (bmi >= 25 && bmi < 30) {
+                    category = 'Overweight';
+                    categoryClass = 'overweight';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is above the normal weight range.`;
+                } else {
+                    category = 'Obese';
+                    categoryClass = 'obese';
+                    explanation = `Your BMI is ${bmi.toFixed(1)}, which is significantly above the normal weight range.`;
+                }
+            }
+            
+            // Display result
+            document.getElementById('bmiResult').innerHTML = `
+                <div class="bmi-result">
+                    <div class="bmi-value">${bmi.toFixed(1)}</div>
+                    <div class="bmi-category ${categoryClass}">${category}</div>
+                    <div class="bmi-explanation">${explanation}</div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

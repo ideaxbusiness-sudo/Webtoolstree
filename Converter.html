@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Unit Converter - Convert Between 14+ Unit Categories</title>
+    <meta name="description" content="Free online unit converter with 14+ categories including length, area, volume, mass, temperature and more. Works on all devices.">
+    <meta name="keywords" content="unit converter, length converter, temperature converter, online converter">
+    <meta name="author" content="Universal Unit Converter">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Universal Unit Converter">
+    <meta property="og:description" content="Free online unit converter with 14+ categories including length, area, volume, mass, temperature and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourblog.blogspot.com/p/unit-converter.html">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Universal Unit Converter",
+      "description": "Free online unit converter with 14+ categories including length, area, volume, mass, temperature and more.",
+      "url": "https://yourblog.blogspot.com/p/unit-converter.html",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Universal Unit Converter"
+      }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg-color: #050510;
+            --card-bg: #0d0d1a;
+            --text-color: #e0e0ff;
+            --primary-color: #7c3aed;
+            --primary-light: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --secondary-color: #a5b4fc;
+            --border-color: #1f1f3a;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            --hover-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            --input-bg: #141428;
+            --button-hover: #6d28d9;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --donation-gradient-1: #7c3aed;
+            --donation-gradient-2: #8b5cf6;
+            --donation-gradient-3: #a78bfa;
+        }
+        [data-theme="light"] {
+            --bg-color: #f5f5ff;
+            --card-bg: #ffffff;
+            --text-color: #1e1b4b;
+            --primary-color: #6d28d9;
+            --primary-light: #7c3aed;
+            --primary-dark: #5b21b6;
+            --secondary-color: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 4px 16px rgba(109, 40, 217, 0.2);
+            --input-bg: #f8fafc;
+            --button-hover: #5b21b6;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            font-weight: 500;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        nav {
+            background-color: var(--card-bg);
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .nav-item {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+        .nav-item:hover {
+            background-color: var(--border-color);
+        }
+        .nav-item.active {
+            background-color: var(--primary-dark);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(109, 40, 217, 0.5);
+        }
+        main {
+            padding: 2rem 0;
+        }
+        .converter-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .converter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .converter-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--primary-light);
+            text-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+        }
+        .converter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--secondary-color);
+            font-size: 1rem;
+            padding: 0.4rem;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .action-btn:hover {
+            background-color: var(--border-color);
+            color: var(--primary-color);
+        }
+        .action-btn.active {
+            color: var(--warning-color);
+        }
+        .converter-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .converter-panels {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .converter-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .input-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        .input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .value-input {
+            flex: 2;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-weight: 500;
+        }
+        .value-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+        }
+        .unit-select {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            font-weight: 500;
+        }
+        .unit-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+        }
+        .swap-btn {
+            align-self: center;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .swap-btn:hover {
+            background-color: var(--button-hover);
+            transform: rotate(180deg);
+        }
+        .density-materials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .material-btn {
+            padding: 0.4rem 0.8rem;
+            background-color: var(--border-color);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .material-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .material-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .density-input {
+            margin-top: 0.5rem;
+        }
+        .history-favorites {
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab {
+            padding: 0.8rem 1.2rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .tab:hover {
+            color: var(--primary-color);
+        }
+        .tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .history-item, .favorite-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background-color: var(--input-bg);
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        .history-item:hover, .favorite-item:hover {
+            background-color: var(--border-color);
+        }
+        .item-details {
+            flex: 1;
+        }
+        .item-category {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        .item-conversion {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .item-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            padding: 0.3rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .item-action-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--border-color);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        /* Donation Section Styles */
+        .donation-container {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2.5rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #0d0d1a, #050510);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+        .donation-container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(139, 92, 246, 0.15) 50%, rgba(167, 139, 250, 0.15) 70%, transparent 100%);
+            animation: pulse 5s ease-in-out infinite;
+            z-index: -1;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        .donation-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 10px rgba(124, 58, 237, 0.5);
+        }
+        .donation-btn {
+            display: inline-block;
+            padding: 18px 36px;
+            background: linear-gradient(45deg, var(--donation-gradient-1), var(--donation-gradient-2), var(--donation-gradient-3));
+            background-size: 200% 200%;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            letter-spacing: -0.2px;
+            animation: gradientShift 5s ease infinite;
+            border: none;
+            cursor: pointer;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .donation-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--donation-gradient-3), var(--donation-gradient-1), var(--donation-gradient-2));
+            background-size: 200% 200%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        .donation-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(124, 58, 237, 0.6);
+            color: white;
+            animation-play-state: paused;
+        }
+        .donation-btn:hover::before {
+            opacity: 1;
+            animation: gradientShift 5s ease infinite;
+        }
+        .donation-icon {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 1.4rem;
+            vertical-align: middle;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+        }
+        .donation-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .donation-btn:hover .donation-glow {
+            opacity: 1;
+        }
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background-color: var(--success-color);
+            color: #050510;
+            border-radius: 8px;
+            box-shadow: var(--hover-shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            font-weight: 600;
+        }
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .converter-panels {
+                flex-direction: column;
+            }
+            .swap-btn {
+                transform: rotate(90deg);
+            }
+            .swap-btn:hover {
+                transform: rotate(270deg);
+            }
+            .donation-container {
+                padding: 1.8rem;
+            }
+            .donation-title {
+                font-size: 1.3rem;
+            }
+            .donation-btn {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .converter-container {
+                padding: 1rem;
+            }
+            .input-container {
+                flex-direction: column;
+            }
+            .value-input, .unit-select {
+                width: 100%;
+            }
+            .donation-container {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+            .donation-title {
+                font-size: 1.2rem;
+                margin-bottom: 1.2rem;
+            }
+            .donation-btn {
+                padding: 14px 28px;
+                font-size: 1rem;
+            }
+            .nav-container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-container" id="navContainer">
+                <!-- Navigation items will be generated by JavaScript -->
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            <div class="converter-container">
+                <div class="converter-header">
+                    <h2 class="converter-title" id="converterTitle">Length Converter</h2>
+                    <div class="converter-actions">
+                        <button class="action-btn" id="favoriteBtn" aria-label="Add to favorites">
+                            <span id="favoriteIcon">☆</span>
+                        </button>
+                        <button class="action-btn" id="resetBtn" aria-label="Reset converter">
+                            ↺
+                        </button>
+                    </div>
+                </div>
+                <div class="converter-body">
+                    <div class="converter-panels">
+                        <div class="converter-panel">
+                            <div class="input-group">
+                                <label class="input-label" for="fromValue">From</label>
+                                <div class="input-container">
+                                    <input type="number" class="value-input" id="fromValue" placeholder="Enter value" aria-label="Value to convert from">
+                                    <select class="unit-select" id="fromUnit" aria-label="Unit to convert from">
+                                        <!-- Options will be generated by JavaScript -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="swap-btn" id="swapBtn" aria-label="Swap units">
+                            ⇄
+                        </button>
+                        <div class="converter-panel">
+                            <div class="input-group">
+                                <label class="input-label" for="toValue">To</label>
+                                <div class="input-container">
+                                    <input type="number" class="value-input" id="toValue" placeholder="Result" readonly aria-label="Conversion result">
+                                    <select class="unit-select" id="toUnit" aria-label="Unit to convert to">
+                                        <!-- Options will be generated by JavaScript -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="densityMaterials" class="density-materials" style="display: none;">
+                        <!-- Material buttons will be generated by JavaScript -->
+                    </div>
+                    <div id="densityInput" class="density-input" style="display: none;">
+                        <div class="input-group">
+                            <label class="input-label" for="densityValue">Density (kg/m³)</label>
+                            <div class="input-container">
+                                <input type="number" class="value-input" id="densityValue" placeholder="Enter density" aria-label="Density value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="history-favorites">
+                    <div class="tabs">
+                        <button class="tab active" id="historyTab">History</button>
+                        <button class="tab" id="favoritesTab">Favorites</button>
+                    </div>
+                    <div class="tab-content active" id="historyContent">
+                        <div id="historyList">
+                            <div class="empty-state">No conversion history yet</div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="favoritesContent">
+                        <div id="favoritesList">
+                            <div class="empty-state">No favorite conversions yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Donation Section -->
+            <div class="donation-container">
+                <h3 class="donation-title">If you find this useful, support me with 1$ ☕</h3>
+                <a href="https://buymeacoffee.com/dailytools4you" target="_blank" class="donation-btn" aria-label="Donate to support more free tools">
+                    Buy me a coffee
+                    <span class="donation-glow"></span>
+                </a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Universal Unit Converter. All rights reserved.</p>
+            <p>Convert between 14+ unit categories with ease.</p>
+        </div>
+    </footer>
+    <div class="notification" id="notification"></div>
+    <script>
+        // Unit conversion data
+        const converters = {
+            length: {
+                title: "Length Converter",
+                units: {
+                    "m": { name: "Meter", factor: 1 },
+                    "cm": { name: "Centimeter", factor: 0.01 },
+                    "mm": { name: "Millimeter", factor: 0.001 },
+                    "km": { name: "Kilometer", factor: 1000 },
+                    "in": { name: "Inch", factor: 0.0254 },
+                    "ft": { name: "Foot", factor: 0.3048 },
+                    "yd": { name: "Yard", factor: 0.9144 },
+                    "mi": { name: "Mile", factor: 1609.34 }
+                }
+            },
+            area: {
+                title: "Area Converter",
+                units: {
+                    "m²": { name: "Square Meter", factor: 1 },
+                    "cm²": { name: "Square Centimeter", factor: 0.0001 },
+                    "km²": { name: "Square Kilometer", factor: 1000000 },
+                    "in²": { name: "Square Inch", factor: 0.00064516 },
+                    "ft²": { name: "Square Foot", factor: 0.092903 },
+                    "yd²": { name: "Square Yard", factor: 0.836127 },
+                    "ac": { name: "Acre", factor: 4046.86 },
+                    "ha": { name: "Hectare", factor: 10000 }
+                }
+            },
+            volume: {
+                title: "Volume Converter",
+                units: {
+                    "m³": { name: "Cubic Meter", factor: 1 },
+                    "cm³": { name: "Cubic Centimeter", factor: 0.000001 },
+                    "L": { name: "Liter", factor: 0.001 },
+                    "mL": { name: "Milliliter", factor: 0.000001 },
+                    "in³": { name: "Cubic Inch", factor: 0.0000163871 },
+                    "ft³": { name: "Cubic Foot", factor: 0.0283168 },
+                    "gal": { name: "Gallon (US)", factor: 0.00378541 },
+                    "qt": { name: "Quart (US)", factor: 0.000946353 }
+                }
+            },
+            mass: {
+                title: "Mass Converter",
+                units: {
+                    "kg": { name: "Kilogram", factor: 1 },
+                    "g": { name: "Gram", factor: 0.001 },
+                    "mg": { name: "Milligram", factor: 0.000001 },
+                    "t": { name: "Metric Ton", factor: 1000 },
+                    "lb": { name: "Pound", factor: 0.453592 },
+                    "oz": { name: "Ounce", factor: 0.0283495 },
+                    "ct": { name: "Carat", factor: 0.0002 },
+                    "gr": { name: "Grain", factor: 0.0000647989 }
+                }
+            },
+            temperature: {
+                title: "Temperature Converter",
+                units: {
+                    "°C": { name: "Celsius", factor: null, offset: 0 },
+                    "°F": { name: "Fahrenheit", factor: 5/9, offset: -32 },
+                    "K": { name: "Kelvin", factor: 1, offset: -273.15 }
+                }
+            },
+            speed: {
+                title: "Speed Converter",
+                units: {
+                    "m/s": { name: "Meter per Second", factor: 1 },
+                    "km/h": { name: "Kilometer per Hour", factor: 0.277778 },
+                    "mph": { name: "Mile per Hour", factor: 0.44704 },
+                    "ft/s": { name: "Foot per Second", factor: 0.3048 },
+                    "kn": { name: "Knot", factor: 0.514444 },
+                    "mach": { name: "Mach", factor: 343 }
+                }
+            },
+            time: {
+                title: "Time Converter",
+                units: {
+                    "s": { name: "Second", factor: 1 },
+                    "ms": { name: "Millisecond", factor: 0.001 },
+                    "min": { name: "Minute", factor: 60 },
+                    "h": { name: "Hour", factor: 3600 },
+                    "day": { name: "Day", factor: 86400 },
+                    "week": { name: "Week", factor: 604800 },
+                    "month": { name: "Month (30 days)", factor: 2592000 },
+                    "year": { name: "Year (365 days)", factor: 31536000 }
+                }
+            },
+            pressure: {
+                title: "Pressure Converter",
+                units: {
+                    "Pa": { name: "Pascal", factor: 1 },
+                    "kPa": { name: "Kilopascal", factor: 1000 },
+                    "MPa": { name: "Megapascal", factor: 1000000 },
+                    "bar": { name: "Bar", factor: 100000 },
+                    "atm": { name: "Atmosphere", factor: 101325 },
+                    "psi": { name: "Pound per Square Inch", factor: 6894.76 },
+                    "torr": { name: "Torr", factor: 133.322 },
+                    "mmHg": { name: "Millimeter of Mercury", factor: 133.322 }
+                }
+            },
+            energy: {
+                title: "Energy Converter",
+                units: {
+                    "J": { name: "Joule", factor: 1 },
+                    "kJ": { name: "Kilojoule", factor: 1000 },
+                    "MJ": { name: "Megajoule", factor: 1000000 },
+                    "cal": { name: "Calorie", factor: 4.184 },
+                    "kcal": { name: "Kilocalorie", factor: 4184 },
+                    "Wh": { name: "Watt Hour", factor: 3600 },
+                    "kWh": { name: "Kilowatt Hour", factor: 3600000 },
+                    "BTU": { name: "British Thermal Unit", factor: 1055.06 }
+                }
+            },
+            power: {
+                title: "Power Converter",
+                units: {
+                    "W": { name: "Watt", factor: 1 },
+                    "kW": { name: "Kilowatt", factor: 1000 },
+                    "MW": { name: "Megawatt", factor: 1000000 },
+                    "hp": { name: "Horsepower", factor: 745.7 },
+                    "PS": { name: "Metric Horsepower", factor: 735.5 },
+                    "BTU/h": { name: "BTU per Hour", factor: 0.293071 },
+                    "cal/s": { name: "Calorie per Second", factor: 4.184 },
+                    "ft·lb/s": { name: "Foot-Pound per Second", factor: 1.35582 }
+                }
+            },
+            density: {
+                title: "Density Converter",
+                units: {
+                    "kg/m³": { name: "Kilogram per Cubic Meter", factor: 1 },
+                    "g/cm³": { name: "Gram per Cubic Centimeter", factor: 1000 },
+                    "kg/L": { name: "Kilogram per Liter", factor: 1000 },
+                    "g/mL": { name: "Gram per Milliliter", factor: 1000 },
+                    "lb/ft³": { name: "Pound per Cubic Foot", factor: 16.0185 },
+                    "lb/in³": { name: "Pound per Cubic Inch", factor: 27679.9 },
+                    "oz/in³": { name: "Ounce per Cubic Inch", factor: 1729.99 },
+                    "lb/gal": { name: "Pound per Gallon (US)", factor: 119.826 }
+                },
+                materials: {
+                    "water": { name: "Water", density: 1000 },
+                    "air": { name: "Air", density: 1.225 },
+                    "steel": { name: "Steel", density: 7850 },
+                    "aluminum": { name: "Aluminum", density: 2700 },
+                    "ethanol": { name: "Ethanol", density: 789 }
+                }
+            },
+            data: {
+                title: "Data Storage Converter",
+                units: {
+                    "bit": { name: "Bit", factor: 1 },
+                    "byte": { name: "Byte", factor: 8 },
+                    "Kb": { name: "Kilobit", factor: 1000 },
+                    "KB": { name: "Kilobyte", factor: 8000 },
+                    "Mb": { name: "Megabit", factor: 1000000 },
+                    "MB": { name: "Megabyte", factor: 8000000 },
+                    "Gb": { name: "Gigabit", factor: 1000000000 },
+                    "GB": { name: "Gigabyte", factor: 8000000000 },
+                    "Tb": { name: "Terabit", factor: 1000000000000 },
+                    "TB": { name: "Terabyte", factor: 8000000000000 }
+                }
+            },
+            fuel: {
+                title: "Fuel Economy Converter",
+                units: {
+                    "L/100km": { name: "Liters per 100 Kilometers", factor: 1 },
+                    "km/L": { name: "Kilometers per Liter", factor: null, inverse: true },
+                    "mpg": { name: "Miles per Gallon (US)", factor: 235.215, inverse: true },
+                    "gal/100mi": { name: "Gallons per 100 Miles", factor: 0.00425144 },
+                    "L/10km": { name: "Liters per 10 Kilometers", factor: 0.1 }
+                }
+            },
+            frequency: {
+                title: "Frequency Converter",
+                units: {
+                    "Hz": { name: "Hertz", factor: 1 },
+                    "kHz": { name: "Kilohertz", factor: 1000 },
+                    "MHz": { name: "Megahertz", factor: 1000000 },
+                    "GHz": { name: "Gigahertz", factor: 1000000000 },
+                    "THz": { name: "Terahertz", factor: 1000000000000 },
+                    "rpm": { name: "Revolutions per Minute", factor: 0.0166667 },
+                    "rad/s": { name: "Radians per Second", factor: 0.159155 },
+                    "deg/s": { name: "Degrees per Second", factor: 0.00277778 }
+                }
+            }
+        };
+        
+        // DOM elements
+        const navContainer = document.getElementById('navContainer');
+        const converterTitle = document.getElementById('converterTitle');
+        const fromValue = document.getElementById('fromValue');
+        const fromUnit = document.getElementById('fromUnit');
+        const toValue = document.getElementById('toValue');
+        const toUnit = document.getElementById('toUnit');
+        const swapBtn = document.getElementById('swapBtn');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const favoriteIcon = document.getElementById('favoriteIcon');
+        const resetBtn = document.getElementById('resetBtn');
+        const densityMaterials = document.getElementById('densityMaterials');
+        const densityInput = document.getElementById('densityInput');
+        const densityValue = document.getElementById('densityValue');
+        const historyTab = document.getElementById('historyTab');
+        const favoritesTab = document.getElementById('favoritesTab');
+        const historyContent = document.getElementById('historyContent');
+        const favoritesContent = document.getElementById('favoritesContent');
+        const historyList = document.getElementById('historyList');
+        const favoritesList = document.getElementById('favoritesList');
+        const notification = document.getElementById('notification');
+        
+        // State
+        let currentConverter = 'length';
+        let isFavorite = false;
+        let history = JSON.parse(localStorage.getItem('converterHistory')) || [];
+        let favorites = JSON.parse(localStorage.getItem('converterFavorites')) || [];
+        let currentMaterial = null;
+        
+        // Initialize the app
+        function init() {
+            // Create navigation
+            createNavigation();
+            
+            // Load initial converter
+            loadConverter(currentConverter);
+            
+            // Add event listeners
+            fromValue.addEventListener('input', convert);
+            fromUnit.addEventListener('change', convert);
+            toUnit.addEventListener('change', convert);
+            swapBtn.addEventListener('click', swapUnits);
+            favoriteBtn.addEventListener('click', toggleFavorite);
+            resetBtn.addEventListener('click', resetConverter);
+            historyTab.addEventListener('click', () => switchTab('history'));
+            favoritesTab.addEventListener('click', () => switchTab('favorites'));
+            
+            // Load history and favorites
+            renderHistory();
+            renderFavorites();
+            
+            // Check if current converter is in favorites
+            checkFavoriteStatus();
+        }
+        
+        // Create navigation
+        function createNavigation() {
+            navContainer.innerHTML = '';
+            
+            Object.keys(converters).forEach(key => {
+                const navItem = document.createElement('button');
+                navItem.className = 'nav-item';
+                navItem.textContent = converters[key].title.replace(' Converter', '');
+                navItem.dataset.converter = key;
+                
+                if (key === currentConverter) {
+                    navItem.classList.add('active');
+                }
+                
+                navItem.addEventListener('click', () => {
+                    currentConverter = key;
+                    loadConverter(key);
+                    
+                    // Update active nav item
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    navItem.classList.add('active');
+                    
+                    // Check favorite status
+                    checkFavoriteStatus();
+                });
+                
+                navContainer.appendChild(navItem);
+            });
+        }
+        
+        // Load converter
+        function loadConverter(converterKey) {
+            const converter = converters[converterKey];
+            converterTitle.textContent = converter.title;
+            
+            // Clear unit selects
+            fromUnit.innerHTML = '';
+            toUnit.innerHTML = '';
+            
+            // Populate unit selects
+            Object.keys(converter.units).forEach(key => {
+                const option1 = document.createElement('option');
+                option1.value = key;
+                option1.textContent = `${key} - ${converter.units[key].name}`;
+                fromUnit.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = key;
+                option2.textContent = `${key} - ${converter.units[key].name}`;
+                toUnit.appendChild(option2);
+            });
+            
+            // Set default units
+            const units = Object.keys(converter.units);
+            fromUnit.value = units[0];
+            toUnit.value = units[1] || units[0];
+            
+            // Handle density converter special case
+            if (converterKey === 'density') {
+                showDensityMaterials();
+            } else {
+                densityMaterials.style.display = 'none';
+                densityInput.style.display = 'none';
+            }
+            
+            // Reset inputs
+            fromValue.value = '';
+            toValue.value = '';
+        }
+        
+        // Show density materials
+        function showDensityMaterials() {
+            densityMaterials.style.display = 'flex';
+            densityMaterials.innerHTML = '';
+            
+            const converter = converters[currentConverter];
+            
+            Object.keys(converter.materials).forEach(key => {
+                const materialBtn = document.createElement('button');
+                materialBtn.className = 'material-btn';
+                materialBtn.textContent = converter.materials[key].name;
+                materialBtn.dataset.material = key;
+                
+                if (key === currentMaterial) {
+                    materialBtn.classList.add('active');
+                }
+                
+                materialBtn.addEventListener('click', () => {
+                    currentMaterial = key;
+                    densityValue.value = converter.materials[key].density;
+                    
+                    // Update active material button
+                    document.querySelectorAll('.material-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    materialBtn.classList.add('active');
+                    
+                    convert();
+                });
+                
+                densityMaterials.appendChild(materialBtn);
+            });
+            
+            // Show density input
+            densityInput.style.display = 'block';
+            densityValue.addEventListener('input', () => {
+                // Clear selected material
+                currentMaterial = null;
+                document.querySelectorAll('.material-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                convert();
+            });
+            
+            // Set default material
+            if (!currentMaterial) {
+                currentMaterial = 'water';
+                densityValue.value = converter.materials.water.density;
+                document.querySelector('.material-btn[data-material="water"]').classList.add('active');
+            }
+        }
+        
+        // Convert units
+        function convert() {
+            const fromVal = parseFloat(fromValue.value);
+            if (isNaN(fromVal)) {
+                toValue.value = '';
+                return;
+            }
+            
+            const converter = converters[currentConverter];
+            const fromUnitKey = fromUnit.value;
+            const toUnitKey = toUnit.value;
+            
+            // Handle temperature conversion (special case with offset)
+            if (currentConverter === 'temperature') {
+                const fromUnitData = converter.units[fromUnitKey];
+                const toUnitData = converter.units[toUnitKey];
+                
+                // Convert to Celsius first
+                let celsius;
+                if (fromUnitKey === '°C') {
+                    celsius = fromVal;
+                } else if (fromUnitKey === '°F') {
+                    celsius = (fromVal - 32) * 5/9;
+                } else if (fromUnitKey === 'K') {
+                    celsius = fromVal - 273.15;
+                }
+                
+                // Convert from Celsius to target unit
+                let result;
+                if (toUnitKey === '°C') {
+                    result = celsius;
+                } else if (toUnitKey === '°F') {
+                    result = celsius * 9/5 + 32;
+                } else if (toUnitKey === 'K') {
+                    result = celsius + 273.15;
+                }
+                
+                toValue.value = result.toFixed(6).replace(/\.?0+$/, '');
+                return;
+            }
+            
+            // Handle fuel economy conversion (special case with inverse)
+            if (currentConverter === 'fuel') {
+                const fromUnitData = converter.units[fromUnitKey];
+                const toUnitData = converter.units[toUnitKey];
+                
+                // Convert to L/100km first
+                let lPer100km;
+                if (fromUnitKey === 'L/100km') {
+                    lPer100km = fromVal;
+                } else if (fromUnitData.inverse) {
+                    lPer100km = 100 / fromVal;
+                } else {
+                    lPer100km = fromVal * fromUnitData.factor;
+                }
+                
+                // Convert from L/100km to target unit
+                let result;
+                if (toUnitKey === 'L/100km') {
+                    result = lPer100km;
+                } else if (toUnitData.inverse) {
+                    result = 100 / lPer100km;
+                } else {
+                    result = lPer100km / toUnitData.factor;
+                }
+                
+                toValue.value = result.toFixed(6).replace(/\.?0+$/, '');
+                return;
+            }
+            
+            // Handle density conversion with material
+            if (currentConverter === 'density') {
+                const density = parseFloat(densityValue.value);
+                if (isNaN(density)) {
+                    toValue.value = '';
+                    return;
+                }
+                
+                const fromUnitData = converter.units[fromUnitKey];
+                const toUnitData = converter.units[toUnitKey];
+                
+                // Convert to kg/m³ first
+                let kgPerM3 = fromVal * fromUnitData.factor;
+                
+                // Convert from kg/m³ to target unit
+                let result = kgPerM3 / toUnitData.factor;
+                
+                toValue.value = result.toFixed(6).replace(/\.?0+$/, '');
+                return;
+            }
+            
+            // Handle regular conversion
+            const fromUnitData = converter.units[fromUnitKey];
+            const toUnitData = converter.units[toUnitKey];
+            
+            // Convert to base unit first
+            const baseValue = fromVal * fromUnitData.factor;
+            
+            // Convert from base unit to target unit
+            const result = baseValue / toUnitData.factor;
+            
+            toValue.value = result.toFixed(6).replace(/\.?0+$/, '');
+        }
+        
+        // Swap units
+        function swapUnits() {
+            const tempValue = fromValue.value;
+            const tempUnit = fromUnit.value;
+            
+            fromValue.value = toValue.value;
+            fromUnit.value = toUnit.value;
+            toValue.value = tempValue;
+            toUnit.value = tempUnit;
+            
+            convert();
+            
+            // Add to history if there's a value
+            if (fromValue.value) {
+                addToHistory();
+            }
+        }
+        
+        // Reset converter
+        function resetConverter() {
+            fromValue.value = '';
+            toValue.value = '';
+            
+            // Reset to default units
+            const converter = converters[currentConverter];
+            const units = Object.keys(converter.units);
+            fromUnit.value = units[0];
+            toUnit.value = units[1] || units[0];
+            
+            // Reset density material if applicable
+            if (currentConverter === 'density') {
+                currentMaterial = 'water';
+                densityValue.value = converter.materials.water.density;
+                document.querySelectorAll('.material-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector('.material-btn[data-material="water"]').classList.add('active');
+            }
+        }
+        
+        // Toggle favorite
+        function toggleFavorite() {
+            isFavorite = !isFavorite;
+            
+            if (isFavorite) {
+                // Add to favorites
+                const favorite = {
+                    id: Date.now(),
+                    converter: currentConverter,
+                    fromUnit: fromUnit.value,
+                    toUnit: toUnit.value,
+                    timestamp: new Date().toISOString()
+                };
+                
+                favorites.push(favorite);
+                localStorage.setItem('converterFavorites', JSON.stringify(favorites));
+                favoriteIcon.textContent = '★';
+                showNotification('Added to favorites!');
+            } else {
+                // Remove from favorites
+                favorites = favorites.filter(fav => 
+                    !(fav.converter === currentConverter && 
+                      fav.fromUnit === fromUnit.value && 
+                      fav.toUnit === toUnit.value)
+                );
+                localStorage.setItem('converterFavorites', JSON.stringify(favorites));
+                favoriteIcon.textContent = '☆';
+                showNotification('Removed from favorites!');
+            }
+            
+            renderFavorites();
+        }
+        
+        // Check favorite status
+        function checkFavoriteStatus() {
+            isFavorite = favorites.some(fav => 
+                fav.converter === currentConverter && 
+                fav.fromUnit === fromUnit.value && 
+                fav.toUnit === toUnit.value
+            );
+            
+            favoriteIcon.textContent = isFavorite ? '★' : '☆';
+        }
+        
+        // Add to history
+        function addToHistory() {
+            const historyItem = {
+                id: Date.now(),
+                converter: currentConverter,
+                fromValue: fromValue.value,
+                fromUnit: fromUnit.value,
+                toValue: toValue.value,
+                toUnit: toUnit.value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add to beginning of history
+            history.unshift(historyItem);
+            
+            // Limit history to 20 items
+            if (history.length > 20) {
+                history = history.slice(0, 20);
+            }
+            
+            localStorage.setItem('converterHistory', JSON.stringify(history));
+            renderHistory();
+        }
+        
+        // Render history
+        function renderHistory() {
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-state">No conversion history yet</div>';
+                return;
+            }
+            
+            historyList.innerHTML = '';
+            
+            history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const converter = converters[item.converter];
+                
+                historyItem.innerHTML = `
+                    <div class="item-details">
+                        <div class="item-category">${converter.title}</div>
+                        <div class="item-conversion">${item.fromValue} ${item.fromUnit} = ${item.toValue} ${item.toUnit}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-action-btn" onclick="loadHistoryItem(${item.id})" aria-label="Load conversion">↺</button>
+                        <button class="item-action-btn" onclick="removeFromHistory(${item.id})" aria-label="Remove from history">×</button>
+                    </div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+        
+        // Render favorites
+        function renderFavorites() {
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<div class="empty-state">No favorite conversions yet</div>';
+                return;
+            }
+            
+            favoritesList.innerHTML = '';
+            
+            favorites.forEach(item => {
+                const favoriteItem = document.createElement('div');
+                favoriteItem.className = 'favorite-item';
+                
+                const converter = converters[item.converter];
+                
+                favoriteItem.innerHTML = `
+                    <div class="item-details">
+                        <div class="item-category">${converter.title}</div>
+                        <div class="item-conversion">${item.fromUnit} → ${item.toUnit}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-action-btn" onclick="loadFavorite(${item.id})" aria-label="Load favorite">↺</button>
+                        <button class="item-action-btn" onclick="removeFromFavorites(${item.id})" aria-label="Remove from favorites">×</button>
+                    </div>
+                `;
+                
+                favoritesList.appendChild(favoriteItem);
+            });
+        }
+        
+        // Load history item
+        function loadHistoryItem(id) {
+            const item = history.find(h => h.id === id);
+            if (!item) return;
+            
+            // Switch to converter
+            currentConverter = item.converter;
+            loadConverter(currentConverter);
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(navItem => {
+                navItem.classList.remove('active');
+                if (navItem.dataset.converter === currentConverter) {
+                    navItem.classList.add('active');
+                }
+            });
+            
+            // Set values
+            fromValue.value = item.fromValue;
+            fromUnit.value = item.fromUnit;
+            toUnit.value = item.toUnit;
+            
+            // Convert to update result
+            convert();
+            
+            // Check favorite status
+            checkFavoriteStatus();
+            
+            // Show notification
+            showNotification('Conversion loaded from history!');
+        }
+        
+        // Load favorite
+        function loadFavorite(id) {
+            const item = favorites.find(f => f.id === id);
+            if (!item) return;
+            
+            // Switch to converter
+            currentConverter = item.converter;
+            loadConverter(currentConverter);
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(navItem => {
+                navItem.classList.remove('active');
+                if (navItem.dataset.converter === currentConverter) {
+                    navItem.classList.add('active');
+                }
+            });
+            
+            // Set units
+            fromUnit.value = item.fromUnit;
+            toUnit.value = item.toUnit;
+            
+            // Clear values
+            fromValue.value = '';
+            toValue.value = '';
+            
+            // Check favorite status
+            checkFavoriteStatus();
+            
+            // Show notification
+            showNotification('Favorite conversion loaded!');
+        }
+        
+        // Remove from history
+        function removeFromHistory(id) {
+            history = history.filter(h => h.id !== id);
+            localStorage.setItem('converterHistory', JSON.stringify(history));
+            renderHistory();
+            showNotification('Removed from history!');
+        }
+        
+        // Remove from favorites
+        function removeFromFavorites(id) {
+            favorites = favorites.filter(f => f.id !== id);
+            localStorage.setItem('converterFavorites', JSON.stringify(favorites));
+            renderFavorites();
+            
+            // Check if current converter is still in favorites
+            checkFavoriteStatus();
+            
+            showNotification('Removed from favorites!');
+        }
+        
+        // Switch tab
+        function switchTab(tab) {
+            if (tab === 'history') {
+                historyTab.classList.add('active');
+                favoritesTab.classList.remove('active');
+                historyContent.classList.add('active');
+                favoritesContent.classList.remove('active');
+            } else {
+                historyTab.classList.remove('active');
+                favoritesTab.classList.add('active');
+                historyContent.classList.remove('active');
+                favoritesContent.classList.add('active');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Add event listener for Enter key to add to history
+        fromValue.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && fromValue.value) {
+                addToHistory();
+                showNotification('Added to history!');
+            }
+        });
+        
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
