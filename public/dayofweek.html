@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day of The Week Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000000;
+            color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+            padding-bottom: 60px; /* Space for fixed footer */
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            z-index: 10;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            z-index: 2;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #c0c0c0, #d4af37);
+            border-radius: 20px;
+            opacity: 0.5;
+            z-index: -1;
+            animation: borderGlow 5s linear infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+        
+        .title {
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            margin-bottom: 1.5rem;
+            font-weight: 500; /* Reduced thickness */
+            background: linear-gradient(45deg, #d4af37, #ffffff, #c0c0c0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from {
+                filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.7));
+            }
+            to {
+                filter: drop-shadow(0 0 15px rgba(192, 192, 192, 0.7));
+            }
+        }
+        
+        .date-input-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 1.5rem; /* Increased right padding for icon */
+            font-size: 1.1rem;
+            background: rgba(30, 30, 30, 0.8);
+            border: 2px solid #444;
+            border-radius: 12px;
+            color: #f5f5f5;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.3s ease;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .date-input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+        
+        .calendar-icon-container {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+            z-index: 3;
+        }
+        
+        .calendar-icon-container:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, #e5c755, #c9a422);
+        }
+        
+        .calendar-icon {
+            font-size: 1.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .result-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+        
+        .result-label {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            opacity: 0.8;
+            color: #c0c0c0;
+        }
+        
+        .day-display {
+            font-family: 'Roboto Mono', monospace;
+            font-size: clamp(2.5rem, 10vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #d4af37, #ffffff, #c0c0c0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: dayGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes dayGlow {
+            from {
+                text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(192, 192, 192, 0.7);
+            }
+        }
+        
+        .date-display {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            color: #c0c0c0;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20, 20, 20, 0.9);
+            padding: 10px 0;
+            text-align: center;
+            z-index: 100;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-text {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            color: #c0c0c0;
+            opacity: 0.8;
+        }
+        
+        .donation-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            border: 1px solid #c0c0c0;
+            color: #000000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .donation-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.8s;
+            z-index: -1;
+        }
+        
+        .donation-btn:hover::before {
+            left: 100%;
+        }
+        
+        .donation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #e5c755, #c9a422);
+        }
+        
+        .donation-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .coffee-icon {
+            font-size: 0.9rem;
+            color: #000000;
+        }
+        
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .light-ray {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.5), transparent);
+            opacity: 0.3;
+            animation: rayMove 15s infinite linear;
+        }
+        
+        .light-ray:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .light-ray:nth-child(2) {
+            left: 30%;
+            animation-delay: 2s;
+        }
+        
+        .light-ray:nth-child(3) {
+            left: 50%;
+            animation-delay: 4s;
+        }
+        
+        .light-ray:nth-child(4) {
+            left: 70%;
+            animation-delay: 6s;
+        }
+        
+        .light-ray:nth-child(5) {
+            left: 90%;
+            animation-delay: 8s;
+        }
+        
+        @keyframes rayMove {
+            0% {
+                top: -100px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #d4af37;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.7);
+            opacity: 0;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+        
+        .particle:nth-child(6) {
+            left: 20%;
+            animation-delay: 0s;
+        }
+        
+        .particle:nth-child(7) {
+            left: 40%;
+            animation-delay: 2s;
+        }
+        
+        .particle:nth-child(8) {
+            left: 60%;
+            animation-delay: 4s;
+        }
+        
+        .particle:nth-child(9) {
+            left: 80%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-100px) translateX(20px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 10px;
+            }
+            
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .footer-text {
+                font-size: 0.7rem;
+                padding: 0 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .donation-btn {
+                padding: 0.2rem 0.6rem;
+                font-size: 10px;
+            }
+            
+            .footer-text {
+                font-size: 0.6rem;
+                line-height: 1.2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <img src="webtoolstree.png" alt="WebToolsTree Logo" class="logo">
+    
+    <div class="container">
+        <h1 class="title">Day of The Week Calculator</h1>
+        
+        <div class="date-input-container">
+            <input type="date" id="dateInput" class="date-input" placeholder="Select a date">
+            <div class="calendar-icon-container" id="calendarIcon">
+                <i class="fas fa-calendar-alt calendar-icon"></i>
+            </div>
+        </div>
+        
+        <div class="result-container">
+            <div class="result-label">The day of the week is:</div>
+            <div class="day-display" id="dayDisplay">Select a date</div>
+            <div class="date-display" id="dateDisplay"></div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-text">
+            © 2023 Day of The Week Calculator. All rights reserved by webtoolstree. 
+            All processing happens in your browser for maximum privacy.
+        </div>
+        <a href="https://buymeacoffee.com/webtoolstree" target="_blank" class="donation-btn">
+            <span>If you find this useful, support me with 1$</span>
+            <span class="coffee-icon">☕</span>
+        </a>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('dateInput');
+            const calendarIcon = document.getElementById('calendarIcon');
+            const dayDisplay = document.getElementById('dayDisplay');
+            const dateDisplay = document.getElementById('dateDisplay');
+            
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            // Set today's date as default
+            const today = new Date();
+            const formattedToday = formatDateForInput(today);
+            dateInput.value = formattedToday;
+            updateDayDisplay(today);
+            
+            // Event listener for calendar icon click
+            calendarIcon.addEventListener('click', function() {
+                dateInput.focus();
+                dateInput.click(); // This triggers the date picker
+            });
+            
+            // Event listener for date input change
+            dateInput.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                updateDayDisplay(selectedDate);
+            });
+            
+            function formatDateForInput(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            function updateDayDisplay(date) {
+                const dayOfWeek = days[date.getDay()];
+                const dateNum = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                
+                dayDisplay.textContent = dayOfWeek;
+                dateDisplay.textContent = `${month} ${dateNum}, ${year}`;
+            }
+        });
+    </script>
+</body>
+</html>
