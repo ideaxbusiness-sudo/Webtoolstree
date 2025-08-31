@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    { "source": "/civiltakeoff", "destination": "/public/civilquantity.html" },
+    { "source": "/propdfeditor", "destination": "/public/pdfeditor.html" },
+    { "source": "/bmicalculator", "destination": "/public/bmi.html" },
+    { "source": "/texteditor", "destination": "/public/texteditor.html" },
+    { "source": "/fitlifeplanner", "destination": "/public/fitplanner.html" },
+    { "source": "/photoeditorpro", "destination": "/public/imageeditor.html" },
+    { "source": "/universalunitconverter", "destination": "/public/converter.html" },
+    { "source": "/codekithub", "destination": "/public/codekit.html" },
+    { "source": "/agecalculator", "destination": "/public/age.html" },
+    { "source": "/countdown&stopwatch", "destination": "/public/stopwatch.html" },
+    { "source": "/dayoftheweek", "destination": "/public/dayofweek.html" },
+    { "source": "/scientificcalculator", "destination": "/public/scientific.html" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
+  ]
+}
