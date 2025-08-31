@@ -1,0 +1,58 @@
+export default function handler(req, res) {
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.webtoolstree.com/</loc>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/civiltakeoff</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/propdfeditor</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/bmicalculator</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/texteditor</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/fitlifeplanner</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/photoeditorpro</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/universalunitconverter</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/codekithub</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/agecalculator</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/countdown&amp;stopwatch</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/dayoftheweek</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.webtoolstree.com/scientificcalculator</loc>
+    <priority>0.80</priority>
+  </url>
+</urlset>`);
+}
