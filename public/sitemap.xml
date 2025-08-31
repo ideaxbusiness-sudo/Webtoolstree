@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.webtoolstree.com/</loc>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/age.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/bmi.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/civilquantity.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/codekit.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/converter.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/dayofweek.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/fitplanner.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/imageeditor.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/index.html</loc>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/pdfeditor.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/scientific.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/stopwatch.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.webtoolstree.com/texteditor.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+</urlset>
