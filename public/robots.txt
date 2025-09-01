@@ -1,0 +1,1 @@
+user-agent:%20*%0AAllow%3A%20/%0ASitemap:%20https://www.webtoolstree.com/sitemap.xml
