@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "framework": "other",
+  "builds": [
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "*.png", "use": "@vercel/static" },
+    { "src": "robots.txt", "use": "@vercel/static" },
+    { "src": "sitemap.xml", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/([a-zA-Z0-9_-]+)", "dest": "/$1.html" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
